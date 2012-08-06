@@ -76,5 +76,5 @@ setInterval(function() {
 	});
 	socket.sockets.emit('reload', data);
 	console.log(data);
-}, 30);
+}, 100);
 

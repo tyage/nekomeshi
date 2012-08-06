@@ -27,7 +27,7 @@ var Player = function() {
 };
 Player.prototype = {
 	move: function(direction) {
-		var moveStep = 2;
+		var moveStep = 3;
 		var moveVectors = {
 			right: [1,0],
 			left: [-1,0],
