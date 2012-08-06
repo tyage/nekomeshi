@@ -1,12 +1,13 @@
 {
-  "name": "node-example",
+  "name": "nekomeshi",
   "version": "0.0.1",
   "dependencies": {
     "express": "2.5.x"
   },
   "engines": {
     "node": "0.8.x",
-    "npm": "1.1.x"
+    "npm": "1.1.x",
+    "socket.io": ">=0.9.0"
   }
 }
 
