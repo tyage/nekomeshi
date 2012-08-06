@@ -4,6 +4,7 @@
   "dependencies": {
     "express": "2.5.x"
     , "jade": "0.16.x"
+    , "ejs": "0.4.x"
     , "stylus": "0.19.x"
     , "nib": "0.2.x"
     , "socket.io": "0.9.x"
