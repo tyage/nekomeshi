@@ -2,12 +2,12 @@
   "name": "nekomeshi",
   "version": "0.0.1",
   "dependencies": {
-    "express": "2.5.x"
+    "express": "2.5.x",
+    "socket.io": "0.9.9"
   },
   "engines": {
     "node": "0.8.x",
-    "npm": "1.1.x",
-    "socket.io": ">=0.8.0"
+    "npm": "1.1.x"
   }
 }
 
