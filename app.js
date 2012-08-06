@@ -55,8 +55,11 @@ socket.on('connection', function(client) {
 	var player = new Player();
 	objects.push(player);
 	
+	reload();
+	
 	client.on('move', function (direction) {
 		player.move(direction);
+		reload();
 	});
 	client.on('disconnect', function() {
 		var del = 0;
@@ -69,12 +72,9 @@ socket.on('connection', function(client) {
 		delete objects[del];
 	});
 });
-
-setInterval(function() {
+var reload = function() {
 	var data = objects.map(function(obj, i) {
 		return obj.getData();
 	});
 	socket.sockets.emit('reload', data);
-	console.log(data);
-}, 100);
-
+};
