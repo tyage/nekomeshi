@@ -19,8 +19,7 @@ app.configure(function() {
 var socket = io.listen(app);
 socket.on('connection', function(client) {
   client.on('post', function (data) {
-    client.emit('news', data);
-    client.emit('news', data);
+    client.emit('get', data);
     console.log(data);
   });
 });
