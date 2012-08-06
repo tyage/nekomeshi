@@ -6,7 +6,7 @@
 	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 	<script>
 $(function() {
-	var socket = new io.connect('http://localhost');
+	var socket = new io.connect();
 	socket.on('get', function(msg) {
 		var date = new Date();
 		$('#list').prepend($('<dt>' + date + '</dt><dd>' + msg + '</dd>'));
