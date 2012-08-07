@@ -4,16 +4,34 @@ module.exports = (function() {
 		move: function(direction) {
 			var moveStep = 3;
 			var moveVectors = {
-				right: [1,0],
-				left: [-1,0],
-				up: [0,-1],
-				down: [0,1]
+				right: [moveStep, 0],
+				left: [-moveStep, 0],
+				up: [0, -moveStep],
+				down: [0, moveStep]
 			};
 			var vector = moveVectors[direction];
-			if (vector) {
-				this.x += vector[0] * moveStep;
-				this.y += vector[1] * moveStep;
+			if (vector && this.canMove(vector)) {
+				this.x += vector[0];
+				this.y += vector[1];
 			}
+		},
+		canMove: function(vector) {
+			var canMove = true;
+			var self = this;
+			this.x += vector[0];
+			this.y += vector[1];
+			this.world.objects.forEach(function(obj, i) {
+				if (obj && self.distance(obj) < self.size + obj.size) {
+					canMove = false;
+					return false;
+				}
+			});
+			this.x -= vector[0];
+			this.y -= vector[1];
+			return canMove;
+		},
+		distance: function(object) {
+			return Math.sqrt(Math.pow(object.x-this.x,2)+Math.pow(object.y-this.y,2));
 		}
 	};
 	
@@ -22,7 +40,8 @@ module.exports = (function() {
 	};
 	_World.prototype = {
 		createObject: function(object) {
-			objects.push(object);
+			object.world = this;
+			this.objects.push(object);
 		},
 		deleteObject: function(object) {
 			var del = -1;

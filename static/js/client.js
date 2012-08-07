@@ -1,7 +1,7 @@
 $(function() {
 	var socket = new io.connect();
 	socket.on('reload', function(objects) {
-		Canvas.draw(objects);
+		Stage.draw(objects);
 	});
 
 	var isKeyActive = {};
