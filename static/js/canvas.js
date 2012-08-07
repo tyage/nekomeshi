@@ -14,12 +14,27 @@ Canvas.prototype = {
 		for (;i<l;++i) {
 			object = objects[i];
 			if (object) {
-				this.drawCharacter(object);
+				this.drawObject(object);
 			}
 		};
 	},
-	drawCharacter: function(object) {
-		this.drawCircle(object.center, object.radius, object.axis, object.color);
+	drawObject: function(object) {
+		var shapeTypes = {
+			circleShape: 0,
+			polygonShape: 1,
+			edgeShape: 2
+		};
+		switch (object.type) {
+			case shapeTypes.circleShape:
+				this.drawCircle(object.center, object.radius, object.axis, object.color);
+				break;
+			case shapeTypes.polygonShape:
+				this.drawSolidPolygon(object.vertices, object.vertexCount, object.color);
+				break;
+			case shapeTypes.edgeShape:
+				this.drawSegment(object.p1, object.p2, object.color);
+				break;
+		}
 	},
 	drawCircle: function(center, radius, axis, color) {
 		if (!radius) return;
@@ -36,6 +51,32 @@ Canvas.prototype = {
 		s.lineTo((center.x + axis.x * radius) * drawScale, (center.y + axis.y * radius) * drawScale);
 		s.closePath();
 		s.fill();
+		s.stroke();
+	},
+	drawSolidPolygon: function (vertices, vertexCount, color) {
+		if (!vertexCount) return;
+		var s = this.ctx;
+		var drawScale = this.drawScale;
+		s.beginPath();
+		s.strokeStyle = this._color(color.color, this.alpha);
+		s.fillStyle = this._color(color.color, this.fillAlpha);
+		s.moveTo(vertices[0].x * drawScale, vertices[0].y * drawScale);
+		for (var i = 1; i < vertexCount; i++) {
+			s.lineTo(vertices[i].x * drawScale, vertices[i].y * drawScale);
+		}
+		s.lineTo(vertices[0].x * drawScale, vertices[0].y * drawScale);
+		s.closePath();
+		s.fill();
+		s.stroke();
+	},
+	drawSegment: function (p1, p2, color) {
+		var s = this.ctx,
+			drawScale = this.drawScale;
+		s.strokeStyle = this._color(color.color, this.m_alpha);
+		s.beginPath();
+		s.moveTo(p1.x * drawScale, p1.y * drawScale);
+		s.lineTo(p2.x * drawScale, p2.y * drawScale);
+		s.closePath();
 		s.stroke();
 	},
 	_color: function (color, alpha) {
