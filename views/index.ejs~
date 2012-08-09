@@ -4,8 +4,8 @@
 	<script src="https://www.google.com/jsapi"></script>
 	<script>google.load("jquery", "1.7");</script>
 	<script src="/socket.io/socket.io.js"></script>
-	<script src="/js/canvas.js"></script>
 	<script src="/js/client.js"></script>
+	<script src="/js/canvas.js"></script>
 </head>
 <body>
 	<canvas id="stage" width="600" height="400"></canvas>

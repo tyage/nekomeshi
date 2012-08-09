@@ -33,7 +33,6 @@ var   b2Vec2 = Box2D.Common.Math.b2Vec2
 , b2MouseJointDef =  Box2D.Dynamics.Joints.b2MouseJointDef
 , b2Math = Box2D.Common.Math.b2Math
 , b2Color = Box2D.Common.b2Color
-, b2Shape = Box2D.Collision.Shapes.b2Shape
 ;
   
 var world = new b2World(

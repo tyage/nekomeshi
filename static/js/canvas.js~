@@ -40,7 +40,7 @@ Canvas.prototype = {
 	},
 	_color: function (color, alpha) {
 		return "rgba(" + ((color & 0xFF0000) >> 16) + "," + ((color & 0xFF00) >> 8) + "," + (color & 0xFF) + "," + alpha + ")";
-	}
+	};
 };
 
 var Stage = null;
