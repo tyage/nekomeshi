@@ -1,7 +1,7 @@
 $(function() {
 	var socket = new io.connect();
 	socket.on('reload', function(objects) {
-		Stage.draw(objects);
+		stage.draw(objects);
 	});
 
 	var isKeyActive = {};
@@ -21,9 +21,5 @@ $(function() {
 				socket.emit('move', key2Direction[key]);
 			}
 		}
-<<<<<<< HEAD
 	}, 10);
-=======
-	}, 40);
->>>>>>> parent of 22f804e... remove unnecessary files
 });
