@@ -21,5 +21,5 @@ $(function() {
 				socket.emit('move', key2Direction[key]);
 			}
 		}
-	}, 40);
+	}, 10);
 });

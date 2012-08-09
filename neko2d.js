@@ -2,7 +2,7 @@ module.exports = (function() {
 	var _Object = function() {};
 	_Object.prototype = {
 		move: function(direction) {
-			var moveStep = 3;
+			var moveStep = 0.2;
 			var moveVectors = {
 				right: [moveStep, 0],
 				left: [-moveStep, 0],
@@ -21,7 +21,8 @@ module.exports = (function() {
 			this.x += vector[0];
 			this.y += vector[1];
 			this.world.objects.forEach(function(obj, i) {
-				if (obj && obj !== self && self.distance(obj) < self.size + obj.size) {
+				if (obj && obj !== self && 
+					self.distance(obj) < self.radius + obj.radius) {
 					canMove = false;
 					return false;
 				}

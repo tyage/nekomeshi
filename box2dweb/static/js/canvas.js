@@ -19,19 +19,36 @@ Canvas.prototype = {
 		};
 	},
 	drawObject: function(object) {
-		this.drawCircle(object.center, object.radius, object.color);
+		var shapeTypes = {
+			circleShape: 0,
+			polygonShape: 1,
+			edgeShape: 2
+		};
+		switch (object.type) {
+			case shapeTypes.circleShape:
+				this.drawCircle(object.center, object.radius, object.axis, object.color);
+				break;
+			case shapeTypes.polygonShape:
+				this.drawSolidPolygon(object.vertices, object.vertexCount, object.color);
+				break;
+			case shapeTypes.edgeShape:
+				this.drawSegment(object.p1, object.p2, object.color);
+				break;
+		}
 	},
-	drawCircle: function(center, radius, color) {
+	drawCircle: function(center, radius, axis, color) {
 		if (!radius) return;
-		var s = this.ctx,
-			drawScale = this.drawScale,
+		var s = this.ctx;
+			 drawScale = this.drawScale,
 			 cx = center.x * drawScale,
 			 cy = center.y * drawScale;
 		s.moveTo(0, 0);
 		s.beginPath();
-		s.strokeStyle = this._color(color, this.alpha);
-		s.fillStyle = this._color(color, this.fillAlpha);
+		s.strokeStyle = this._color(color.color, this.alpha);
+		s.fillStyle = this._color(color.color, this.fillAlpha);
 		s.arc(cx, cy, radius * drawScale, 0, Math.PI * 2, true);
+		s.moveTo(cx, cy);
+		s.lineTo((center.x + axis.x * radius) * drawScale, (center.y + axis.y * radius) * drawScale);
 		s.closePath();
 		s.fill();
 		s.stroke();
