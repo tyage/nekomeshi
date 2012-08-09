@@ -90,7 +90,7 @@ setInterval(function() {
 	world.Step(1 / 60, 10, 10);
 	world.ClearForces();
 	reload();
-}, 1000 / 60);
+}, 40);
 
 // ----------websocket
 var socket = io.listen(app);

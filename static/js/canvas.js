@@ -14,19 +14,6 @@ Canvas.prototype = {
 		for (;i<l;++i) {
 			object = objects[i];
 			if (object) {
-<<<<<<< HEAD
-				this.drawCharacter(object);
-			}
-		};
-	},
-	drawCharacter: function(object) {
-		this.drawCircle(object.center, object.radius, object.axis, object.color);
-	},
-	drawCircle: function(center, radius, axis, color) {
-		if (!radius) return;
-		var s = this.ctx;
-			 drawScale = this.drawScale,
-=======
 				this.drawObject(object);
 			}
 		};
@@ -38,18 +25,10 @@ Canvas.prototype = {
 		if (!radius) return;
 		var s = this.ctx,
 			drawScale = this.drawScale,
->>>>>>> parent of 22f804e... remove unnecessary files
-			 cx = center.x * drawScale,
-			 cy = center.y * drawScale;
+			cx = center.x * drawScale,
+			cy = center.y * drawScale;
 		s.moveTo(0, 0);
 		s.beginPath();
-<<<<<<< HEAD
-		s.strokeStyle = this._color(color.color, this.alpha);
-		s.fillStyle = this._color(color.color, this.fillAlpha);
-		s.arc(cx, cy, radius * drawScale, 0, Math.PI * 2, true);
-		s.moveTo(cx, cy);
-		s.lineTo((center.x + axis.x * radius) * drawScale, (center.y + axis.y * radius) * drawScale);
-=======
 		s.strokeStyle = this._color(color, this.alpha);
 		s.fillStyle = this._color(color, this.fillAlpha);
 		s.arc(cx, cy, radius * drawScale, 0, Math.PI * 2, true);
@@ -69,13 +48,10 @@ Canvas.prototype = {
 			s.lineTo(vertices[i].x * drawScale, vertices[i].y * drawScale);
 		}
 		s.lineTo(vertices[0].x * drawScale, vertices[0].y * drawScale);
->>>>>>> parent of 22f804e... remove unnecessary files
 		s.closePath();
 		s.fill();
 		s.stroke();
 	},
-<<<<<<< HEAD
-=======
 	drawSegment: function (p1, p2, color) {
 		var s = this.ctx,
 			drawScale = this.drawScale;
@@ -86,7 +62,6 @@ Canvas.prototype = {
 		s.closePath();
 		s.stroke();
 	},
->>>>>>> parent of 22f804e... remove unnecessary files
 	_color: function (color, alpha) {
 		return "rgba(" + ((color & 0xFF0000) >> 16) + "," + ((color & 0xFF00) >> 8) + "," + (color & 0xFF) + "," + alpha + ")";
 	}

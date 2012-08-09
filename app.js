@@ -19,19 +19,21 @@ app.configure(function() {
 
 var world = new neko2d.World();
 var Player = function() {
-		var colors = ["red", "blue", "green"];
+		var colors = [0xff0000, 0x00ff00, 0x0000ff];
 		this.color = colors[parseInt(colors.length*Math.random())];
-		this.x = parseInt(Math.random()*50);
-		this.y = parseInt(Math.random()*40);
-		this.size = parseInt(Math.random()*10+10);
+		this.x = Math.random()*5+3;
+		this.y = Math.random()*5+3;
+		this.radius = Math.random()+0.3;
 };
 Player.prototype = new neko2d.Object();
 Player.prototype.getData = function() {
 	return {
 		color: this.color,
-		x: this.x,
-		y: this.y,
-		size: this.size
+		center: {
+			x: this.x,
+			y: this.y
+		},
+		radius: this.radius
 	};
 };
 

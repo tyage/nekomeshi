@@ -21,9 +21,5 @@ $(function() {
 				socket.emit('move', key2Direction[key]);
 			}
 		}
-<<<<<<< HEAD
-	}, 10);
-=======
 	}, 40);
->>>>>>> parent of 22f804e... remove unnecessary files
 });
