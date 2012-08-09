@@ -2,16 +2,13 @@ var express = require('express');
 var app = express.createServer();
 var ejs = require('ejs');
 var io = require('socket.io');
-<<<<<<< HEAD
 var Box2D = require('./box2dweb/Box2dWeb-2.1.a.3.min.js');
 var port = process.env.PORT || 5000;
 
 // ----------http
-=======
 var neko2d = require('./neko2d.js');
 var port = process.env.PORT || 5000;
 
->>>>>>> parent of 22f804e... remove unnecessary files
 app.configure(function() {
 	app.use(express.static(__dirname + '/static'));
 
@@ -24,8 +21,6 @@ app.configure(function() {
 	app.listen(port);
 });
 
-<<<<<<< HEAD
-// ----------box2d
 var   b2Vec2 = Box2D.Common.Math.b2Vec2
   ,  b2AABB = Box2D.Collision.b2AABB
 ,	b2BodyDef = Box2D.Dynamics.b2BodyDef
@@ -105,7 +100,6 @@ socket.on('connection', function(client) {
 	client.on('move', function (direction) {
 	});
 	client.on('disconnect', function() {
-=======
 var world = new neko2d.World();
 var Player = function() {
 	var colors = [0xff0000, 0x00ff00, 0x0000ff];
@@ -139,12 +133,10 @@ socket.on('connection', function(client) {
 	});
 	client.on('disconnect', function() {
 		world.deleteObject(player);
->>>>>>> parent of 22f804e... remove unnecessary files
 	});
 });
 
 var reload = function() {
-<<<<<<< HEAD
 	var objects = [];
   var b, f, s, xf;
   var color = new b2Color(0, 0, 0);
@@ -182,10 +174,8 @@ var reload = function() {
 		}
 	}
 	socket.sockets.emit('reload', objects);
-=======
 	var data = world.objects.map(function(obj, i) {
 		return obj.getData();
 	});
 	socket.sockets.emit('reload', data);
->>>>>>> parent of 22f804e... remove unnecessary files
 };
