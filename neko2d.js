@@ -1,120 +1,152 @@
 module.exports = (function() {
-	var _Vec = function(x, y) {
+	var Vec = function(x, y) {
 		this.x = x || 0;
 		this.y = y || 0;
 	};
-	_Vec.prototype = {
+	Vec.prototype = {
 		clone: function() {
-			return new _Vec(this.x, this.y);
+			return new Vec(this.x, this.y);
 		},
 		add: function(vec, y) {
 			if (y !== undefined) {
-				vec = new _Vec(vec, y);
+				vec = new Vec(vec, y);
 			}
 
-			return new _Vec(this.x + vec.x, this.y + vec.y);
+			return new Vec(this.x + vec.x, this.y + vec.y);
 		},
 		subtract: function(vec, y) {
 			if (y !== undefined) {
-				vec = new _Vec(vec, y);
+				vec = new Vec(vec, y);
 			}
 
-			return new _Vec(this.x - vec.x, this.y - vec.y);
+			return new Vec(this.x - vec.x, this.y - vec.y);
 		},
 		multiply: function(i) {
-			return new _Vec(this.x * i, this.y * i);
+			return new Vec(this.x * i, this.y * i);
 		},
 		divide: function(i) {
-			return new _Vec(this.x / i, this.y / i);
+			return new Vec(this.x / i, this.y / i);
 		}
 	};
 
-	var _Object = function() {
-		this.actions = {
-			left: false,
-			top: false,
-			right: false,
-			down: false
-		};
-		this.pos = new _Vec();
+	var Shape = function() {}
+	Shape.Circle = function() {}
+
+	var Body = function() {
+		this.pos = new Vec();
+		this.contactListener = new ContactListener();
 	};
-	_Object.prototype = {
-		setActions: function(actions) {
-			this.actions = actions;
+	Body.prototype = {
+		step: function(interval) {},
+		move: function(vec) {
+			var prePos = this.pos;
+			this.pos = this.pos.add(vec);
+
+			var self = this;
+			this.checkCollision(function(body) {
+				self.pos = prePos;
+				self.world.addContact(self, body);
+			});
 		},
-		step: function(interval) {
-			this.actions.left && this.move("left", interval);
-			this.actions.up && this.move("up", interval);
-			this.actions.right && this.move("right", interval);
-			this.actions.down && this.move("down", interval);
-		},
-		move: function(direction, interval) {
-			var moveStep = 5 * (interval / 1000);
-			var moveVectors = {
-				right: new _Vec(moveStep, 0),
-				left: new _Vec(-moveStep, 0),
-				up: new _Vec(0, -moveStep),
-				down: new _Vec(0, moveStep)
-			};
-			var vector = moveVectors[direction];
-			if (vector && this.canMove(vector)) {
-				this.pos = this.pos.add(vector);
-			}
-		},
-		canMove: function(vector) {
-			var canMove = true,
-				self = this;
+		checkCollision: function(callback) {
+			var self = this;
 			
-			var prePos = this.pos.clone();
-			this.pos = this.pos.add(vector);
-			this.world.objects.forEach(function(obj, i) {
-				if (obj && obj !== self && 
-					self.distance(obj) < self.radius + obj.radius) {
-					canMove = false;
-					return false;
+			this.world.bodies.forEach(function(body, i) {
+				if (body && body !== self && 
+					self.distance(body) < self.radius + body.radius) {
+					callback(body);
 				}
 			});
-			this.pos = prePos;
-			return canMove;
 		},
-		distance: function(object) {
-			return Math.sqrt(Math.pow(object.pos.x-this.pos.x,2)+Math.pow(object.pos.y-this.pos.y,2));
+		distance: function(body) {
+			return Math.sqrt(Math.pow(body.pos.x-this.pos.x,2)+Math.pow(body.pos.y-this.pos.y,2));
 		},
 		delete: function() {
-			this.world.deleteObject(this);
+			this.world.deleteBody(this);
 		}
 	};
 	
-	var _World = function() {
-		this.objects = [];
+	var ContactListener = function(body) {
+		this.body = body
 	};
-	_World.prototype = {
-		createObject: function(object) {
-			object.world = this;
-			this.objects.push(object);
+	ContactListener.prototype = {
+		add: function() {},
+		persisit: function() {},
+		remove: function() {}
+	};
+	
+	var World = function() {
+		this.bodies = [];
+		this.contacts = [];
+	};
+	World.prototype = {
+		createBody: function(body) {
+			body.world = this;
+			this.bodies.push(body);
 		},
-		deleteObject: function(object) {
+		deleteBody: function(body) {
 			var del = -1;
-			this.objects.forEach(function(obj, i) {
-				if (obj === object) {
+			this.bodies.forEach(function(b, i) {
+				if (b === body) {
 					del = i;
-					return false;
 				}
 			});
 			if (del >= 0) {
-				delete this.objects[del];
+				delete this.bodies[del];
 			}
 		},
 		step: function(interval) {
-			this.objects.forEach(function(object) {
-				object.step(interval);
+			this.prepareContact();
+			this.bodies.forEach(function(body) {
+				body.step(interval);
+			});
+			this.resolveContacts();
+		},
+		addContact: function(body1, body2) {
+			this.contacts.push([body1, body2]);
+		},
+		prepareContact: function() {
+			this.preContacts = this.contacts;
+			this.contacts = [];
+		},
+		resolveContacts: function() {
+			var isExists = function(contact, list) {
+				var result = false;
+				list.forEach(function(elem) {
+					if (
+						(elem[0] === contact[0] && elem[1] === contact[1]) ||
+						(elem[0] === contact[1] && elem[1] === contact[0])
+					) {
+						result = true;
+					}
+				});
+				return result;
+			};
+
+			var self = this;
+			this.contacts.forEach(function(contact) {
+				if (isExists(contact, self.preContacts)) {
+					contact[0].contactListener.persisit(contact[1]);
+					contact[1].contactListener.persisit(contact[0]);
+				} else {
+					contact[0].contactListener.add(contact[1]);
+					contact[1].contactListener.add(contact[0]);
+				}
+			});
+			this.preContacts.forEach(function(contact) {
+				if (!isExists(contact, self.contacts)) {
+					contact[0].contactListener.remove(contact[1]);
+					contact[1].contactListener.remove(contact[0]);
+				}
 			});
 		}
 	};
-	
+
 	return {
-		Vec: _Vec,
-		Object: _Object,
-		World: _World
+		Vec: Vec,
+		Shape: Shape,
+		Body: Body,
+		World: World,
+		ContactListener: ContactListener
 	};
 })();

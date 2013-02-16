@@ -17,9 +17,10 @@ server.listen(setting.server.port);
 
 io.on('connection', function(client) {
 	var player = world.createPlayer();
-	
+	client.emit('player', player.getData());
+
 	client.on('actions', function (actions) {
-		player.setActions(actions);
+		player.actions = actions;
 	});
 	client.on('disconnect', function() {
 		player.delete();
@@ -27,8 +28,8 @@ io.on('connection', function(client) {
 });
 
 world.start(function() {
-	var data = world.objects.map(function(obj, i) {
-		return obj.getData();
+	var data = world.bodies.map(function(body, i) {
+		return body.getData();
 	});
 	io.sockets.emit('reload', data);
 });
