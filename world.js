@@ -35,7 +35,7 @@ world.createPlayer = function() {
 var id = 0;
 var Player = function() {
 	this.id = id++;
-	this.pos = new Vec(Math.random()*20, Math.random()*20);
+	this.pos = new Vec(Math.random()*setting.game.width, Math.random()*setting.game.height);
 	this.radius = setting.game.radius;
 	this.actions = {
 		left: false,
@@ -70,6 +70,11 @@ Player.prototype.step = function(interval) {
 	this.actions.up && this.move(moveVectors.up);
 	this.actions.right && this.move(moveVectors.right);
 	this.actions.down && this.move(moveVectors.down);
+
+	if (this.pos.x < 0) this.pos.x = 0;
+	if (this.pos.y < 0) this.pos.y = 0;
+	if (this.pos.x > setting.game.width) this.pos.x = setting.game.width;
+	if (this.pos.y > setting.game.height) this.pos.y = setting.game.height;
 
 	this.isOni = this.isNextOni;
 };

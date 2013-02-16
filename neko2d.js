@@ -29,6 +29,7 @@ module.exports = (function() {
 		}
 	};
 
+	// TODO
 	var Shape = function() {}
 	Shape.Circle = function() {}
 

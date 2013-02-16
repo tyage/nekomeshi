@@ -5,6 +5,8 @@ module.exports = {
 	game: {
 		interval: 1000 / 60, // ms,
 		moveDistance: 5 / 1000,
-		radius: 0.7
+		radius: 0.7,
+		width: 20,
+		height: 16
 	}
 };
