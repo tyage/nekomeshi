@@ -2,12 +2,12 @@
   "name": "nekomeshi",
   "version": "0.0.1",
   "dependencies": {
-    "express": "2.5.x",
-    "jade": "0.16.x",
+    "express": "4.16.x",
+    "jade": "1.11.x",
     "ejs": "~2.5.5",
-    "stylus": "0.19.x",
-    "nib": "0.2.x",
-    "socket.io": "0.9.x"
+    "stylus": "0.54.x",
+    "nib": "1.1.x",
+    "socket.io": "2.0.x"
   },
   "engines": {
     "node": "0.8.x",
