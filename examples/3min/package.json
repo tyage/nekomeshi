@@ -2,7 +2,7 @@
   "name": "nekomeshi",
   "version": "0.0.1",
   "dependencies": {
-    "express": "4.16.x",
+    "express": "4.17.x",
     "jade": "1.11.x",
     "ejs": "~2.5.5",
     "stylus": "0.54.x",
