@@ -7,7 +7,7 @@
     "ejs": "~2.5.5",
     "stylus": "0.54.x",
     "nib": "1.1.x",
-    "socket.io": "2.0.x"
+    "socket.io": "4.4.x"
   },
   "engines": {
     "node": "0.8.x",
