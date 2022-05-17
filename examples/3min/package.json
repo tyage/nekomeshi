@@ -6,7 +6,7 @@
     "jade": "1.11.x",
     "ejs": "~2.5.5",
     "stylus": "0.54.x",
-    "nib": "1.1.x",
+    "nib": "1.2.x",
     "socket.io": "2.0.x"
   },
   "engines": {
